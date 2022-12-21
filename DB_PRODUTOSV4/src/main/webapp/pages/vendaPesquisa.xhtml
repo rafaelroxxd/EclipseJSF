@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+   	 xmlns:f="http://java.sun.com/jsf/core"
+	   xmlns:p="http://primefaces.org/ui"
+>
+<ui:composition template="/templates/modeloGeral.xhtml">
+	<ui:define name="conteudo" >
+		<h:form id="frmVendaPesquisa">
+		 <p:toolbar>
+			 	<f:facet name="left">
+			 		<h:outputText value="Pesquisa de Vendas" />
+			 	
+			 	</f:facet>	 
+			 </p:toolbar>
+			 
+			 <p:panelGrid columns="5">
+			 
+			 	<p:outputLabel value="Data Inicial" />
+			 	 <p:calendar value="#{vendaBean.vendaFilter.dataInicial}"/>
+			 
+			 	<p:outputLabel value="Data Final" />
+			 	<p:calendar   value="#{vendaBean.vendaFilter.dataFinal}" />
+			 	
+			 	<p:commandButton value="Buscar" actionListener="#{vendaBean.buscar}" 
+			 	update=":msgGlobal :frmVendaPesquisa:dataVenda :frmVendaPesquisa:dataVenda:valorTotalPorData"/>
+			 
+			 </p:panelGrid>
+			 
+			 <p:separator />
+			 <p:panel id="resultados" widgetVar="resultados">
+			<p:dataTable id="dataVenda" emptyMessage="Nenhum registro Encontrado"
+					 value="#{vendaBean.listaVendasFiltradas}"
+					var="vendaCursor"
+					rows="5"
+					paginator="true"
+					autoUpdate="true"
+					
+					>				
+								
+				
+				
+				<p:column headerText="Código">
+					<h:outputText value="#{vendaCursor.codigo}" />
+				
+				</p:column>				
+				
+				<p:column headerText="Horário">
+					<h:outputText value="#{vendaCursor.horario}" >
+					<f:convertDateTime pattern="dd/MM/yyyy" /> 
+					
+					</h:outputText>
+				
+				</p:column>	
+				
+				<p:column headerText="Valor" >
+								
+					<h:outputText value="#{vendaCursor.valor}" >
+					<f:convertNumber pattern="0.00"/>
+					
+					</h:outputText>
+				
+				<f:facet name="footer">
+							<h:outputText value="Valor Total:" />
+							<h:outputText id="valorTotalPorData" value="#{vendaBean.valorTotalPorData}">
+								<f:convertNumber />
+							</h:outputText>
+					</f:facet>	
+				
+				</p:column>	
+				
+				<p:column headerText="Produtos Consumidos:" >
+								
+					<h:outputText value="#{vendaCursor.produtosConsumidos}" />
+					
+				
+				 </p:column>
+				
+				
+				<p:column headerText="Funcionario">
+					<h:outputText value="#{vendaCursor.funcionario.nome}"  />
+				</p:column>			
+								
+			</p:dataTable>
+		  </p:panel>
+			 
+			 
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

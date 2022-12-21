@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+   	 xmlns:f="http://java.sun.com/jsf/core"
+	   xmlns:p="http://primefaces.org/ui"
+>
+<ui:composition template="/templates/modeloGeral.xhtml">
+	<ui:define name="conteudo" >
+		<h:form id="frmProdutoPesquisa">
+		 <p:toolbar>
+			 	<f:facet name="left">
+			 		<h:outputText value="Pesquisa de Vendas" />
+			 	
+			 	</f:facet>	 
+			 </p:toolbar>
+			 
+			 <p:panelGrid columns="5">
+			 
+			 	<p:outputLabel value="Digite a Descrição do Produto" />
+			 	<p:inputText id="campoNome" value="#{produtoBean.campoNome}"  onchange="PF(‘dataProd’).clearFilters(); PF(‘dataProd’).filter();" valueChangeListener="#{produtoBean.filterListener}">
+		</p:inputText>
+			 
+			 	
+			 	
+			 	<p:commandButton value="Pesquisar" action="#{produtoBean.filterListener}"  
+			 	update=":frmProdutoPesquisa:dataVenda"/>
+			 
+			 </p:panelGrid>
+			 
+			 <p:separator />
+			 <p:panel id="resultados" widgetVar="resultados">
+			<p:dataTable id="dataVenda" emptyMessage="Nenhum registro Encontrado"
+					 value="#{produtoBean.listaProdutosFiltrados}"
+					var="produtoCursor"
+					rows="5"
+					paginator="true"
+					autoUpdate="true"
+					
+					>				
+								
+				
+				
+				<p:column headerText="Código" style="width:5%">
+					<h:outputText value="#{produtoCursor.codigo}" />
+				
+				</p:column>				
+				<p:column headerText="Descrição">
+				
+				<h:outputText value="#{produtoCursor.descricao}" />
+				</p:column>	
+				
+				
+				
+				<p:column headerText="preçoC"  style="width:7%">
+					<f:facet name="footer">
+							<h:outputText value="Valor Total:" />
+							<h:outputText id="precoc"  value="#{produtoBean.valorTotalC1}" autoupdate="true">
+							<f:convertNumber />
+							</h:outputText>
+							
+						
+					
+					</f:facet>
+				
+				<h:outputText value="R$ #{produtoCursor.precoc}" >
+			
+				
+				<f:convertNumber pattern="00.00"/>
+				
+				
+				</h:outputText>
+				</p:column>	
+				
+				<p:column headerText="preçoV"  style="width:7%">
+				<f:facet name="footer">
+							<h:outputText value="Valor Total:" />
+							<h:outputText id="precov" value="#{produtoBean.valorTotalV1}" autoupdate="true">
+								<f:convertNumber />
+							</h:outputText>
+							
+					</f:facet>
+				
+				<h:outputText value="R$ #{produtoCursor.precov}" >
+							
+	
+				
+				<f:convertNumber pattern="00.00" />
+				
+				
+				
+				</h:outputText>
+				</p:column>	
+				
+				
+				
+				<p:column headerText="Qtde"  style="width:5%">
+				
+				<h:outputText value="#{produtoCursor.quantidade}" />
+				</p:column>	
+				
+				
+				<p:column headerText="Fornecedor">
+				
+				<h:outputText value="#{produtoCursor.fornecedor.descricao}" />
+				</p:column>	
+								
+			</p:dataTable>
+		  </p:panel>
+			 
+			 
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

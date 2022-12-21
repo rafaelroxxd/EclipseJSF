@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	   xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+   	 xmlns:f="http://java.sun.com/jsf/core"
+	   xmlns:p="http://primefaces.org/ui"	
+>
+<ui:composition template="/templates/modeloGeral.xhtml">
+  <ui:define name="metadata">
+  	<f:metadata>
+  			<f:viewParam name="foracao" value="#{fornecedorBean.acao}" />
+  			<f:viewParam name="forcod" value="#{fornecedorBean.codigo}" />
+  	 		<f:event listener="#{fornecedorBean.carregarCadastro}" type="preRenderView" />
+  	 		<f:event listener="#{fornecedorBean.carregarCadastro}" type="preValidate" />
+  	</f:metadata>
+  </ui:define>	
+
+	<ui:define name="conteudo"  >
+		<h:form id="frmForCad">
+		 <p:toolbar>
+			 	<f:facet name="left">
+			 		<h:outputText value="Fornecedores" />
+			 	
+			 	</f:facet>	 
+			 </p:toolbar>
+			 
+		 <h:panelGrid id="pnlForCadDados" columns="2">
+		  <f:event listener="#{fornecedorBean.carregarCadastro}" type="preRenderView" />
+			<p:outputLabel value="Código" />
+			<p:inputText maxlength="20" size="20"	readonly="true"  value="#{fornecedorBean.fornecedorCadastro.codigo}"/>
+						
+			<p:outputLabel value="Descrição" />
+			<p:inputText maxlength="50" size="20"	value="#{fornecedorBean.fornecedorCadastro.descricao}" 
+					readonly="#{fornecedorBean.acao == 'Excluir'}"
+				>
+				 <f:validateBean />	
+					
+				</p:inputText>
+		  
+		<p:outputLabel for="telefone" value="Telefone:" />
+        <p:inputMask id="telefone" value="#{fornecedorBean.fornecedorCadastro.telefone}" mask="(999) 99999-999?9"
+        			 readonly="#{fornecedorBean.acao == 'Excluir'}"
+        			 maxlength="16" size="20"
+        			 minlength="15"       			 
+        			 >
+        			  <f:validateLength minimum="15" maximum="16" />		
+        			 <f:validateRegex pattern="\([0-9]{3}\)[\s][0-9]{5}-[0-9]{3,4}"></f:validateRegex>
+        			 
+        			 </p:inputMask>	
+      	
+				
+				
+		 </h:panelGrid>
+			
+		<h:panelGrid columns="3">	
+			<p:commandButton value="Novo" actionListener="#{fornecedorBean.novo}" update=":frmForCad:pnlForCadDados"
+			   rendered="#{(fornecedorBean.acao == 'Novo') and ( autenticacaoBean.funcionarioLogado.funcao != 'funcionario')}"	
+			  
+			
+			 />
+			<p:commandButton value="Salvar"  
+				update=":msgGlobal :frmForCad:pnlForCadDados @form"
+			actionListener="#{fornecedorBean.salvar}" 
+				rendered="#{autenticacaoBean.funcionarioLogado.funcao != 'funcionario' and fornecedorBean.acao == 'Novo'}"
+				process="@form"
+			/>
+			
+			<p:commandButton value="Excluir"  actionListener="#{fornecedorBean.excluir}" update=":msgGlobal" 
+				rendered="#{(fornecedorBean.acao == 'Excluir') and (autenticacaoBean.funcionarioLogado.funcao != 'funcionario')}"	
+			>
+			
+			</p:commandButton>
+			<p:commandButton value="Editar" actionListener="#{fornecedorBean.editar}" update=":msgGlobal"
+			   rendered="#{(fornecedorBean.acao == 'Editar') and (autenticacaoBean.funcionarioLogado.funcao != 'funcionario')}"		 		
+			>
+			
+			</p:commandButton>
+			<p:button  value="Voltar" outcome="/pages/fornecedorPesquisa.xhtml" process="@none">
+			  <f:event listener="#{fornecedorBean.carregarPesquisa}" type="preRenderView"></f:event>
+			 </p:button>
+		</h:panelGrid>
+			
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

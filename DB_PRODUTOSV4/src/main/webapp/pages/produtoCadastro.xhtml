@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	   xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+   	 xmlns:f="http://java.sun.com/jsf/core"
+	   xmlns:p="http://primefaces.org/ui"	
+>
+<ui:composition template="/templates/modeloGeral.xhtml">
+  <ui:define name="metadata">
+  	<f:metadata>
+  			<f:viewParam name="prodacao" value="#{produtoBean.acao}" />
+  			<f:viewParam name="prodcod" value="#{produtoBean.codigo}" />
+  	 		<f:event listener="#{produtoBean.carregarCadastro}" type="preRenderView" />
+  	 		<f:event listener="#{produtoBean.carregarCadastro}" type="preValidate" />
+  	</f:metadata>
+  </ui:define>	
+
+	<ui:define name="conteudo" >
+		<h:form id="frmFabCad" >
+		 <p:toolbar>
+			 	<f:facet name="left">
+			 		<h:outputText value="Produtos" />
+			 	
+			 	</f:facet>	 
+			 </p:toolbar>
+			 
+		 <h:panelGrid id="pnlFabCadDados" columns="2">
+		  <f:event listener="#{produtoBean.carregarCadastro}" type="preRenderView" />
+			<p:outputLabel value="Código" />
+			<p:inputText maxlength="20" size="20"	readonly="true"  value="#{produtoBean.produtoCadastro.codigo}"/>
+						
+			<p:outputLabel value="Descrição"  rendered="#{produtoBean.acao != 'AdicionarEstoque'}" />
+			<p:inputText maxlength="50" size="20"	value="#{produtoBean.produtoCadastro.descricao}" 
+					readonly="#{produtoBean.acao == 'Excluir'}"
+					rendered="#{produtoBean.acao != 'AdicionarEstoque'}"
+				>
+				 <f:validateBean />	
+					
+				</p:inputText>
+				
+				<p:outputLabel value="PreçoC:" rendered="#{produtoBean.acao != 'AdicionarEstoque'}" />
+			<p:inputText size="20" 
+				value="#{produtoBean.produtoCadastro.precoc}" 
+					readonly="#{produtoBean.acao == 'Excluir'}"
+					converterMessage="Informe um valor válido para o campo preçoC"
+					rendered="#{produtoBean.acao != 'AdicionarEstoque'}"
+				>
+								
+				 <f:validateBean />	
+				 <f:convertNumber />					
+				</p:inputText>
+				
+				<p:outputLabel value="PreçoV:" rendered="#{produtoBean.acao != 'AdicionarEstoque'}" />
+			<p:inputText size="20" 
+				value="#{produtoBean.produtoCadastro.precov}" 
+					readonly="#{produtoBean.acao == 'Excluir'}"
+					converterMessage="Informe um valor válido para o campo preçoV"
+			     	rendered="#{produtoBean.acao != 'AdicionarEstoque'}"
+				>
+				 <f:validateBean />	
+				 <f:convertNumber />					
+				</p:inputText>
+				
+				
+			<p:outputLabel value="Quantidade:" rendered="#{produtoBean.acao != 'AdicionarEstoque'}" />
+			<p:inputText size="20" 
+				value="#{produtoBean.produtoCadastro.quantidade}" 
+					readonly="#{produtoBean.acao == 'Excluir'}"
+					rendered="#{produtoBean.acao != 'AdicionarEstoque'}"
+				>
+				 <f:validateBean />	
+					
+				</p:inputText>
+				
+				<p:outputLabel value="Quantidade Do Estoque:" rendered="#{produtoBean.acao == 'AdicionarEstoque'}" />
+			<p:inputText size="20" 
+				value="#{produtoBean.produtoCadastro.quantidadeAddEstoque}" 
+				rendered="#{produtoBean.acao == 'AdicionarEstoque'}"
+				>
+				 	
+				 <f:convertNumber />
+					
+				</p:inputText>
+				
+				
+				<p:outputLabel value="Fornecedor:" 
+				rendered="#{produtoBean.acao != 'AdicionarEstoque'}"
+				 />
+				<p:selectOneMenu value="#{produtoBean.produtoCadastro.fornecedor}"
+						converter="fornecedorConverter"
+						rendered="#{produtoBean.acao != 'AdicionarEstoque'}"
+						>
+					<f:selectItem itemValue="" itemLabel="Selecione um Fabricante" />
+				    <f:selectItems value="#{produtoBean.listaFornecedores}" 
+				     var="fabricanteCursor" itemValue="#{fabricanteCursor}" itemLabel="#{fabricanteCursor.descricao}"	
+				     />
+				
+				</p:selectOneMenu>
+				
+		 </h:panelGrid>
+			
+		<h:panelGrid columns="3">	
+			<p:commandButton value="Novo" actionListener="#{produtoBean.novo}" update=":frmFabCad:pnlFabCadDados"
+			   rendered="#{produtoBean.acao == 'Novo'}"	
+			 />
+			<p:commandButton value="Salvar"  
+				update=":msgGlobal :frmFabCad:pnlFabCadDados"
+			actionListener="#{produtoBean.salvar}" 
+			rendered="#{produtoBean.acao == 'Novo'}"
+			
+			/>
+			
+			<p:commandButton value="Excluir"  actionListener="#{produtoBean.excluir}" update=":msgGlobal" 
+				rendered="#{produtoBean.acao == 'Excluir'}"	
+			>
+			
+			</p:commandButton>
+			<p:commandButton value="Editar" actionListener="#{produtoBean.editar}" update=":msgGlobal"
+			   rendered="#{produtoBean.acao == 'Editar'}"		 		
+			>						
+			</p:commandButton>
+			
+			<p:commandButton value="Adicionar do Estoque" actionListener="#{produtoBean.adicionarEstoque}" update=":msgGlobal"
+			   rendered="#{produtoBean.acao == 'AdicionarEstoque'}"	process="@form"	 		
+			>
+			</p:commandButton>
+			
+			
+			<p:button  value="Voltar" outcome="/pages/produtoPesquisa.xhtml" process="@this" >
+			  <f:event listener="#{produtoBean.carregarPesquisa}" type="preRenderView"></f:event>
+			 <f:event listener="#{produtoBean.pegaListValorTotalCV}" type="preRenderView"></f:event>
+			 </p:button>
+		</h:panelGrid>
+			
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

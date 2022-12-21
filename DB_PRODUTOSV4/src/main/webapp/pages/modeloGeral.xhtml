@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+     xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+   	 xmlns:f="http://java.sun.com/jsf/core"
+	   xmlns:p="http://primefaces.org/ui"
+>
+
+<ui:insert name="metadata" />
+
+
+<h:head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>DB_PRODUTOS</title>
+<h:outputStylesheet library="css" name="estilos.css"/>
+ 
+	<h:outputScript>
+		window.location.hash="no-back-button";
+		window.location.hash="Again-No-back-button";
+		window.onhashchange = function()
+		 {
+		 		window.location.hash="no-back-button";
+				
+		}
+
+	</h:outputScript> 
+
+
+</h:head>
+<h:body>
+
+<!-- 
+	<p:growl id="msgGlobal" sticky="true"/>
+  <p:layout fullPage="true">
+  	<p:layoutUnit header="Sistema para Gerenciamento de Produtos" position="north" resizable="false" closable="false"  collapsible="false">
+  	
+  	</p:layoutUnit>
+  	
+  	<p:layoutUnit header="Desenvolvido por" position="south" resizable="false" closable="false"  collapsible="false">
+  	
+  	</p:layoutUnit>
+  	
+  	<p:layoutUnit header="Menu Principal" position="west"  size="250" resizable="false" closable="false"  collapsible="false">
+  		<h:form id="frmMnPrincipal">
+  		<p:panelMenu  id="pnlMnPrincipal">
+  			<p:submenu label="Arquivo">
+  			
+  				<p:menuitem value="Autenticacao" outcome="/pages/autenticacao.xhtml" rendered="#{autenticacaoBean.funcionarioLogado.funcao == null}"></p:menuitem>
+  				<p:menuitem value="Principal" outcome="/pages/principal.xhtml" rendered="#{autenticacaoBean.funcionarioLogado.funcao != null}"></p:menuitem>
+  				<p:menuitem value="Sair" rendered="#{autenticacaoBean.funcionarioLogado.funcao != null}" action="#{autenticacaoBean.sair}"></p:menuitem>
+  			</p:submenu>
+  		 		
+  			<p:submenu label="Cadastro" rendered="#{autenticacaoBean.funcionarioLogado.funcao != null}">
+  			    <p:menuitem value="Fornecedor" outcome="/pages/fornecedorPesquisa.xhtml"></p:menuitem>
+  				<p:menuitem value="Produtos"   outcome="/pages/produtoPesquisa.xhtml" rendered="#{autenticacaoBean.funcionarioLogado.funcao != 'funcionario'}"></p:menuitem>
+  				<p:menuitem value="Funcionários" outcome="/pages/funcionarioPesquisa.xhtml" rendered="#{autenticacaoBean.funcionarioLogado.funcao != 'funcionario'}"></p:menuitem>
+  			
+  			</p:submenu>
+		 		
+  			
+  			<p:submenu label="Vendas" rendered="#{autenticacaoBean.funcionarioLogado.funcao != null}">
+  				<p:menuitem value="Nova Venda" outcome="/pages/vendaCadastro.xhtml" ></p:menuitem>
+  				<p:menuitem value="Pesquisar Data" outcome="/pages/vendaPesquisa.xhtml"></p:menuitem>
+  		    </p:submenu>
+  		
+  			<p:submenu rendered="#{autenticacaoBean.funcionarioLogado.funcao != null and autenticacaoBean.funcionarioLogado.funcao != 'funcionario'}" label="Funções de Produtos" >
+  				<p:menuitem value="Pesquisar Descrição do Produto" outcome="/pages/pesquisaProduto.xhtml"></p:menuitem>
+  			</p:submenu>
+  		
+  		
+  			</p:panelMenu>
+  			
+  		</h:form>		
+  			
+  	</p:layoutUnit>
+  	
+  	<p:layoutUnit position="center" resizable="false" closable="false"  collapsible="false">
+  		<ui:insert name="conteudo" />
+  	</p:layoutUnit>
+  	
+  
+  </p:layout>
+ -->
+</h:body>
+</html>

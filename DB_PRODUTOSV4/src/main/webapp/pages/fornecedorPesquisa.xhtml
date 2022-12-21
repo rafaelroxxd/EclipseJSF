@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	     xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+   	 xmlns:f="http://java.sun.com/jsf/core"
+	   xmlns:p="http://primefaces.org/ui"	
+>
+<ui:composition template="/templates/modeloGeral.xhtml">
+	<ui:define name="metadata">
+	 <f:metadata>
+	   <f:event listener="#{fornecedorBean.carregarPesquisa}" type="preRenderView"></f:event>
+	 </f:metadata>
+	</ui:define>
+	
+	<ui:define name="conteudo" >
+		
+			<h:form id="form">
+			 <p:toolbar>
+			 	<f:facet name="left">
+			 		<h:outputText value="Fornecedores" />
+			 	
+			 	</f:facet>	 
+			 </p:toolbar>
+			
+		<p:panel id="resultados" widgetVar="resultados">
+			<p:dataTable id="dataFab" emptyMessage="Nenhum registro Encontrado"
+					filteredValue="#{fornecedorBean.listaFornecedoresFiltrados}" value="#{fornecedorBean.listaFornecedores}"
+					var="fornecedorCursor"
+					rows="5"
+					paginator="true"
+					autoUpdate="true"
+					
+					>				
+				
+				
+				
+				<f:facet name="footer">
+			 	<p:button value="Novo" outcome="/pages/fornecedorCadastro.xhtml">
+			 		<f:param name="foracao" value="Novo"></f:param>
+			  	</p:button>
+			 	</f:facet>	
+				
+				
+				<p:column headerText="Código">
+					<h:outputText value="#{fornecedorCursor.codigo}" />
+				
+				</p:column>				
+				<p:column headerText="Descrição" filterBy="#{fornecedorCursor.descricao}" sortBy="#{fornecedorCursor.descricao}">
+				
+				<h:outputText value="#{fornecedorCursor.descricao}" />
+				</p:column>	
+				
+				<p:column headerText="Telefone" filterBy="#{fornecedorCursor.telefone}">
+				
+				<h:outputText value="#{fornecedorCursor.telefone}" />
+				</p:column>
+							
+				<p:column headerText="Opções" >
+					<p:button value="Excluir" outcome="/pages/fornecedorCadastro.xhtml">
+						<f:param name="forcod" value="#{fornecedorCursor.codigo}" />
+						<f:param name="foracao" value="Excluir"></f:param>
+			 
+					</p:button>
+					<p:button value="Editar" outcome="/pages/fornecedorCadastro.xhtml">
+						<f:param name="forcod" value="#{fornecedorCursor.codigo}" />
+						<f:param name="foracao" value="Editar"></f:param>
+			 
+					</p:button>	
+				</p:column>	
+			
+					
+			</p:dataTable>
+		  </p:panel>	
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

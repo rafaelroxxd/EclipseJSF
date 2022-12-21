@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	     xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+   	 xmlns:f="http://java.sun.com/jsf/core"
+	   xmlns:p="http://primefaces.org/ui"
+	  
+>
+<ui:composition template="/templates/modeloGeral.xhtml">
+	<ui:define name="metadata">
+	 <f:metadata>
+	   <f:event listener="#{produtoBean.carregarPesquisa}" type="preRenderView"></f:event>
+	   <f:event listener="#{produtoBean.pegaListValorTotalCV}" type="preRenderView"></f:event>
+	 </f:metadata>
+	</ui:define>
+	
+	<ui:define name="conteudo" >
+		<h:form>	
+			
+			 <p:toolbar>
+			 	<f:facet name="left">
+			 		<h:outputText value="Produtos" />
+			 	
+			 	</f:facet>	 
+			 </p:toolbar>
+			
+	
+		
+		<p:panel>
+			<p:dataTable  widgetVar="dataProd" id="dataProd" emptyMessage="Nenhum registro Encontrado"
+					filteredValue="#{produtoBean.listaDataProdFiltrados}" value="#{produtoBean.listaProdutos}"
+					var="produtoCursor"
+					rows="5"
+					paginator="true"
+				>	
+				
+				<f:facet name="header">
+					
+			  	    <h:commandLink>
+                    <p:graphicImage library="images" name="xlsx.png.xhtml.png" width="24"/>
+                    <p:dataExporter type="xls" target="dataProd" fileName="produtos" />
+                </h:commandLink>
+                 
+              
+                <h:commandLink>
+                    <p:graphicImage library="images" name="pdf.png.xhtml.png" width="24"/>
+                    <p:dataExporter type="pdf" target="dataProd" fileName="produtos" encoding="ISO-8859-1"/>
+                </h:commandLink>
+			  	
+				</f:facet>
+				
+				<f:facet name="footer">
+			 	<p:button value="Novo" outcome="/pages/produtoCadastro.xhtml">
+			 		<f:param name="prodacao" value="Novo"></f:param>
+			  	</p:button>
+			  	
+			 	</f:facet>	
+				
+				
+				<p:column headerText="Código" style="width:5%">
+					<h:outputText value="#{produtoCursor.codigo}" />
+				
+				</p:column>				
+				<p:column headerText="Descrição" filterBy="#{produtoCursor.descricao}" >
+				
+				<h:outputText value="#{produtoCursor.descricao}" />
+				</p:column>	
+				
+				
+				
+				<p:column headerText="preçoC" filterBy="#{produtoCursor.precoc}"  style="width:7%">
+					<f:facet name="footer">
+							<h:outputText value="Valor Total:" />
+							<h:outputText id="precoc"  value="#{produtoBean.valorTotalC}">
+							<f:convertNumber />
+							</h:outputText>
+							
+						
+					
+					</f:facet>
+				
+				<h:outputText value="R$ #{produtoCursor.precoc}" >
+			
+				
+				<f:convertNumber pattern="00.00"/>
+				
+				
+				</h:outputText>
+				</p:column>	
+				
+				<p:column headerText="preçoV" filterBy="#{produtoCursor.precov}"  style="width:7%">
+				<f:facet name="footer">
+							<h:outputText value="Valor Total:" />
+							<h:outputText id="precov" value="#{produtoBean.valorTotalV}">
+								<f:convertNumber />
+							</h:outputText>
+							
+					</f:facet>
+				
+				<h:outputText value="R$ #{produtoCursor.precov}" >
+							
+	
+				
+				<f:convertNumber pattern="00.00" />
+				
+				
+				
+				</h:outputText>
+				</p:column>	
+				
+				
+				
+				<p:column headerText="Qtde" filterBy="#{produtoCursor.quantidade}"  style="width:5%">
+				
+				<h:outputText value="#{produtoCursor.quantidade}" />
+				</p:column>	
+				
+				
+				<p:column headerText="Fornecedor" filterBy="#{produtoCursor.fornecedor.descricao}" >
+				
+				<h:outputText value="#{produtoCursor.fornecedor.descricao}" />
+				</p:column>
+							
+				<p:column headerText="Opções" style="width:15%" exportable="false">
+					<p:button value="Excluir" outcome="/pages/produtoCadastro.xhtml">
+						<f:param name="prodcod" value="#{produtoCursor.codigo}" />
+						<f:param name="prodacao" value="Excluir"></f:param>
+			 
+					</p:button>
+					<p:button value="Editar" outcome="/pages/produtoCadastro.xhtml" >
+						<f:param name="prodcod" value="#{produtoCursor.codigo}" />
+						<f:param name="prodacao" value="Editar"></f:param>
+			 
+					</p:button>
+					<p:button value="Adicionar Estoque" outcome="/pages/produtoCadastro.xhtml" >
+						<f:param name="prodcod" value="#{produtoCursor.codigo}" />
+						<f:param name="prodacao" value="AdicionarEstoque"></f:param>
+			 
+					</p:button>	
+						
+				</p:column>	
+			
+					
+			</p:dataTable>
+		  </p:panel>	
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>
